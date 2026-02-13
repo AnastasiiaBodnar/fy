@@ -5,7 +5,7 @@ export class Fetcher {
 
     getProxyUrl(targetUrl) {
         if (this.isDev) {
-            const path = targetUrl.replace('https://jobs.dou.ua', '');
+            const path = targetUrl.replace('https://www.work.ua', '');
             return `/api${path}`;
         }
         return targetUrl;
@@ -15,7 +15,7 @@ export class Fetcher {
         try {
             const fetchUrl = this.getProxyUrl(url);
             console.log('Fetching URL:', fetchUrl);
-            
+
             const response = await fetch(fetchUrl);
 
             if (!response.ok) {

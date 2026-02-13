@@ -21,7 +21,7 @@ export default function JobCard({ job, index, onLoadDetails, isLoadingDetails })
           <div style={styles.location}>{job.location}</div>
         </div>
       </div>
-      
+
       {job.description && (
         <div style={styles.descriptionWrapper}>
           <p style={styles.description}>{job.description}</p>
@@ -33,7 +33,7 @@ export default function JobCard({ job, index, onLoadDetails, isLoadingDetails })
           <button
             onClick={() => onLoadDetails(job, index)}
             disabled={isLoadingDetails}
-            style={{...styles.detailsButton, ...(isLoadingDetails ? styles.buttonDisabled : {})}}
+            style={{ ...styles.detailsButton, ...(isLoadingDetails ? styles.buttonDisabled : {}) }}
           >
             {isLoadingDetails ? 'Завантаження...' : 'Детальніше'}
           </button>
@@ -44,7 +44,7 @@ export default function JobCard({ job, index, onLoadDetails, isLoadingDetails })
             <h3 style={styles.detailsTitle}>Опис вакансії</h3>
           </div>
           <p style={styles.detailsText}>{job.details.fullDescription}</p>
-          
+
           {job.details.requirements.length > 0 && job.details.requirements[0] !== 'Не вказано' && (
             <div style={styles.requirementsSection}>
               <h4 style={styles.requirementsTitle}>Вимоги:</h4>
@@ -91,7 +91,7 @@ const styles = {
   },
   link: {
     textDecoration: 'none',
-    color: '#20c997',
+    color: '#ff4965',
     transition: 'color 0.2s ease'
   },
   metaInfo: {
@@ -129,7 +129,7 @@ const styles = {
     padding: '12px',
     backgroundColor: '#f9fbfa',
     borderRadius: '6px',
-    borderLeft: '3px solid #20c997'
+    borderLeft: '3px solid #ff4965'
   },
   description: {
     color: '#4a645c',
@@ -145,8 +145,8 @@ const styles = {
     padding: '8px 16px',
     cursor: 'pointer',
     backgroundColor: '#f9fbfa',
-    color: '#20c997',
-    border: '1px solid #d1e7e0',
+    color: '#ff4965',
+    border: '1px solid #ffdce2',
     borderRadius: '6px',
     fontSize: '0.85rem',
     fontWeight: '500',
@@ -203,7 +203,7 @@ const styles = {
     gap: '8px'
   },
   bullet: {
-    color: '#20c997',
+    color: '#ff4965',
     flexShrink: 0
   }
 };

@@ -5,10 +5,21 @@ export const createJobsSlice = (set, get) => ({
   searchQuery: '',
 
   setJobs: (jobs) => set({ jobs }),
-  
+
   updateJob: (index, updates) => set((state) => {
     const newJobs = [...state.jobs];
-    newJobs[index] = { ...newJobs[index], ...updates };
+    const oldJob = newJobs[index];
+
+    if (oldJob && typeof oldJob === 'object' && oldJob.constructor !== Object) {
+      try {
+        newJobs[index] = new oldJob.constructor({ ...oldJob, ...updates });
+      } catch (e) {
+        newJobs[index] = { ...oldJob, ...updates };
+      }
+    } else {
+      newJobs[index] = { ...oldJob, ...updates };
+    }
+
     return { jobs: newJobs };
   }),
 

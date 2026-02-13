@@ -37,6 +37,39 @@ app.on('activate', () => {
   }
 });
 
+const { WorkUaParser } = require('@dou-parser/core');
+const axios = require('axios');
+
 ipcMain.handle('fetch-jobs', async () => {
-  return { success: true };
+  try {
+    const parser = new WorkUaParser();
+    const response = await axios.get('https://www.work.ua/jobs-react/', {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+      }
+    });
+    const html = response.data;
+    const jobs = parser.parseVacancyList(html);
+    return { success: true, jobs };
+  } catch (error) {
+    console.error('Error fetching jobs:', error);
+    return { success: false, error: error.message };
+  }
+});
+
+ipcMain.handle('fetch-job-details', async (event, url) => {
+  try {
+    const parser = new WorkUaParser();
+    const response = await axios.get(url, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+      }
+    });
+    const html = response.data;
+    const details = parser.parseVacancyDetails(html);
+    return { success: true, details };
+  } catch (error) {
+    console.error('Error fetching job details:', error);
+    return { success: false, error: error.message };
+  }
 });

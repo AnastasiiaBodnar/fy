@@ -14,7 +14,7 @@ import {
   Pressable
 } from 'react-native';
 import { useJobsStore } from '@dou-parser/store';
-import { DOUParser } from '@dou-parser/core';
+import { WorkUaParser } from '@dou-parser/core';
 
 export default function Index() {
   const {
@@ -30,11 +30,11 @@ export default function Index() {
     getFilteredJobs
   } = useJobsStore();
 
-  const parser = new DOUParser();
+  const parser = new WorkUaParser();
 
   // Try direct fetch first (React Native doesn't have CORS restrictions)
   // Then fallback to CORS proxies if needed
-  const fetchWithFallback = async (targetUrl) => {
+  const fetchWithFallback = async (targetUrl: string) => {
     // First, try direct request (works in React Native)
     try {
       console.log('Trying direct fetch...');
@@ -53,7 +53,7 @@ export default function Index() {
         }
       }
       console.warn('Direct fetch failed, trying proxies...');
-    } catch (error) {
+    } catch (error: any) {
       console.warn('Direct fetch error:', error.message);
     }
 
@@ -61,22 +61,22 @@ export default function Index() {
     const CORS_PROXIES = [
       {
         name: 'AllOrigins',
-        buildUrl: (url) => `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`,
-        extractHtml: (data) => data.contents
+        buildUrl: (url: string) => `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`,
+        extractHtml: (data: any) => data.contents
       },
       {
         name: 'CORS Anywhere',
-        buildUrl: (url) => `https://cors-anywhere.herokuapp.com/${url}`,
-        extractHtml: (data) => data
+        buildUrl: (url: string) => `https://cors-anywhere.herokuapp.com/${url}`,
+        extractHtml: (data: any) => data
       },
       {
         name: 'ThingProxy',
-        buildUrl: (url) => `https://thingproxy.freeboard.io/fetch/${url}`,
-        extractHtml: (data) => data
+        buildUrl: (url: string) => `https://thingproxy.freeboard.io/fetch/${url}`,
+        extractHtml: (data: any) => data
       }
     ];
 
-    let lastError = null;
+    let lastError: Error | null = null;
 
     for (const proxy of CORS_PROXIES) {
       try {
@@ -106,7 +106,7 @@ export default function Index() {
 
         console.log(`Success with proxy: ${proxy.name}`);
         return html;
-      } catch (error) {
+      } catch (error: any) {
         console.warn(`Failed with ${proxy.name}:`, error.message);
         lastError = error;
       }
@@ -118,7 +118,7 @@ export default function Index() {
   const fetchJobs = async () => {
     setLoading(true);
     try {
-      const html = await fetchWithFallback('https://jobs.dou.ua/vacancies/');
+      const html = await fetchWithFallback('https://www.work.ua/jobs-react/');
       const parsedJobs = parser.parseVacancyList(html);
       setJobs(parsedJobs.slice(0, 30));
     } catch (error) {
@@ -129,7 +129,7 @@ export default function Index() {
     }
   };
 
-  const fetchJobDetails = async (job, index) => {
+  const fetchJobDetails = async (job: any, index: number) => {
     setLoadingDetails(index, true);
     try {
       const html = await fetchWithFallback(job.link);
@@ -196,7 +196,7 @@ export default function Index() {
 
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>DOU Parser</Text>
+        <Text style={styles.headerTitle}>Work.ua Parser</Text>
         <TouchableOpacity
           style={[styles.refreshButton, isLoading && styles.buttonDisabled]}
           onPress={fetchJobs}
@@ -226,14 +226,14 @@ export default function Index() {
 
       {isLoading && jobs.length === 0 ? (
         <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color="#20c997" />
+          <ActivityIndicator size="large" color="#ff4965" />
           <Text style={styles.loadingText}>Завантаження вакансій...</Text>
         </View>
       ) : filteredJobs.length === 0 && jobs.length === 0 ? (
         <View style={styles.emptyState}>
           <Text style={styles.emptyIcon}>📄</Text>
           <Text style={styles.emptyTitle}>Натисніть "Оновити" для початку</Text>
-          <Text style={styles.emptyText}>Завантажте актуальні вакансії з DOU.ua</Text>
+          <Text style={styles.emptyText}>Завантажте актуальні вакансії з Work.ua</Text>
         </View>
       ) : (
         <FlatList
@@ -245,7 +245,7 @@ export default function Index() {
             <RefreshControl
               refreshing={isLoading}
               onRefresh={fetchJobs}
-              colors={['#20c997']}
+              colors={['#ff4965']}
             />
           }
           ListEmptyComponent={
@@ -279,10 +279,10 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 24,
     fontWeight: '700',
-    color: '#1a3c34',
+    color: '#ff4965',
   },
   refreshButton: {
-    backgroundColor: '#20c997',
+    backgroundColor: '#ff4965',
     paddingHorizontal: 16,
     paddingVertical: 8,
     borderRadius: 8,
@@ -338,7 +338,7 @@ const styles = StyleSheet.create({
   },
   company: {
     fontSize: 14,
-    color: '#20c997',
+    color: '#ff4965',
     fontWeight: '500',
     marginBottom: 4,
   },

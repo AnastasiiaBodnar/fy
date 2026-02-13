@@ -28,19 +28,19 @@ async function fetchJobs() {
         const proxyUrl = 'https://api.allorigins.win/get?url=';
         const targetUrl = encodeURIComponent('https://jobs.dou.ua/vacancies/');
         const fullUrl = `${proxyUrl}${targetUrl}`;
-        
+
         const response = await axios.get(fullUrl);
         const html = response.data.contents;
 
         jobs = parser.parseVacancyList(html).slice(0, 30);
         filteredJobs = [...jobs];
-        
+
         renderJobs();
-        
+
         searchPanel.style.display = 'block';
         saveBtn.disabled = false;
         updateSearchStats();
-        
+
     } catch (error) {
         console.error('Помилка завантаження:', error);
         alert('Не вдалося завантажити вакансії. Перевірте підключення до інтернету.');
@@ -55,29 +55,31 @@ async function fetchJobDetails(job, index) {
     updateJobCard(index);
 
     try {
-        const proxyUrl = 'https://api.allorigins.win/get?url=';
-        const targetUrl = encodeURIComponent(job.link);
-        const fullUrl = `${proxyUrl}${targetUrl}`;
-        
-        const response = await axios.get(fullUrl);
-        const html = response.data.contents;
+        // Use IPC to fetch details via main process to avoid CORS and parsing issues
+        const result = await ipcRenderer.invoke('fetch-job-details', job.link);
 
-        const details = parser.parseVacancyDetails(html);
-        job.details = details;
-        
+        if (result.success) {
+            job.details = result.details;
+        } else {
+            console.error('Failed to load details:', result.error);
+            alert('Не вдалося завантажити деталі вакансії');
+        }
+
         updateJobCard(index);
-        
+
     } catch (error) {
         console.error('Помилка завантаження деталей:', error);
         alert('Не вдалося завантажити деталі вакансії');
     } finally {
         loadingDetails[index] = false;
+        // Trigger update to remove loading state
+        updateJobCard(index);
     }
 }
 
 function renderJobs() {
     jobsContainer.innerHTML = '';
-    
+
     if (filteredJobs.length === 0) {
         jobsContainer.innerHTML = `
             <div class="empty-state">
@@ -152,14 +154,14 @@ function updateJobCard(index) {
     }
 }
 
-window.loadDetails = function(index) {
+window.loadDetails = function (index) {
     const job = filteredJobs[index];
     fetchJobDetails(job, index);
 };
 
 function handleSearch() {
     const query = searchInput.value.toLowerCase().trim();
-    
+
     if (!query) {
         filteredJobs = [...jobs];
     } else {
@@ -169,7 +171,7 @@ function handleSearch() {
             job.location.toLowerCase().includes(query)
         );
     }
-    
+
     renderJobs();
     updateSearchStats();
 }
@@ -181,7 +183,7 @@ function updateSearchStats() {
 function saveToJSON() {
     const dataStr = JSON.stringify(jobs.map(job => job.toJSON()), null, 2);
     const filePath = path.join(require('os').homedir(), 'Desktop', 'dou_jobs.json');
-    
+
     try {
         fs.writeFileSync(filePath, dataStr, 'utf-8');
         alert(`Файл збережено на робочому столі:\n${filePath}`);

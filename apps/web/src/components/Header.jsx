@@ -4,14 +4,14 @@ export default function Header({ onRefresh, onSave, isLoading, hasJobs }) {
   return (
     <header style={styles.header}>
       <div style={styles.titleContainer}>
-        <h1 style={styles.title}>DOU Парсер</h1>
-        <p style={styles.subtitle}>Аналіз вакансій IT-ринку</p>
+        <h1 style={styles.title}>Work.ua Парсер</h1>
+        <p style={styles.subtitle}>Пошук вакансій по всій Україні</p>
       </div>
       <div style={styles.controls}>
-        <button 
-          onClick={onRefresh} 
+        <button
+          onClick={onRefresh}
           disabled={isLoading}
-          style={{...styles.button, ...(isLoading ? styles.buttonDisabled : {})}}
+          style={{ ...styles.button, ...(isLoading ? styles.buttonDisabled : {}) }}
         >
           {isLoading ? '⏳ Завантаження...' : 'Оновити дані'}
         </button>
@@ -44,7 +44,7 @@ const styles = {
   },
   title: {
     margin: '0 0 4px 0',
-    color: '#1a3c34',
+    color: '#ff4965',
     fontSize: '1.5rem',
     fontWeight: '600',
     letterSpacing: '-0.02em'
@@ -62,7 +62,7 @@ const styles = {
   button: {
     padding: '10px 20px',
     cursor: 'pointer',
-    backgroundColor: '#20c997',
+    backgroundColor: '#ff4965',
     color: '#fff',
     border: 'none',
     borderRadius: '6px',

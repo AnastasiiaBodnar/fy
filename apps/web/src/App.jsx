@@ -1,6 +1,6 @@
 import React from 'react';
 import { useJobsStore } from '@dou-parser/store';
-import { DOUParser, Job } from '@dou-parser/core';
+import { WorkUaParser, Job } from '@dou-parser/core';
 import { Fetcher } from '@dou-parser/api';
 import { StorageService } from '@dou-parser/utils';
 import Header from './components/Header';
@@ -22,13 +22,13 @@ function App() {
     getFilteredJobs
   } = useJobsStore();
 
-  const parser = new DOUParser();
+  const parser = new WorkUaParser();
   const fetcher = new Fetcher();
 
   const fetchJobs = async () => {
     setLoading(true);
     try {
-      const html = await fetcher.fetchHTML('https://jobs.dou.ua/vacancies/');
+      const html = await fetcher.fetchHTML('https://www.work.ua/jobs-react/');
       const parsedJobs = parser.parseVacancyList(html);
       setJobs(parsedJobs.slice(0, 30));
     } catch (error) {
@@ -61,21 +61,21 @@ function App() {
 
   return (
     <div className="container">
-      <Header 
+      <Header
         onRefresh={fetchJobs}
         onSave={handleSaveJSON}
         isLoading={isLoading}
         hasJobs={jobs.length > 0}
       />
-      
+
       <SearchBar
         value={searchQuery}
         onChange={setSearchQuery}
         totalCount={jobs.length}
         filteredCount={filteredJobs.length}
       />
-      
-      <JobList 
+
+      <JobList
         jobs={filteredJobs}
         onLoadDetails={fetchJobDetails}
         loadingDetails={loadingDetails}

@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function SearchBar({ value, onChange, totalCount, filteredCount }) {
   if (totalCount === 0) return null;
-  
+
   return (
     <div style={styles.searchContainer}>
       <div style={styles.searchWrapper}>
@@ -75,7 +75,7 @@ const styles = {
   },
   counterNumber: {
     fontWeight: '600',
-    color: '#20c997'
+    color: '#ff4965'
   },
   counterText: {
     color: '#6b8c85'
