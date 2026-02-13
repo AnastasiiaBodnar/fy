@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOU Parser Desktop</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <div class="title-section">
+                    <h1>DOU Парсер Desktop</h1>
+                    <p class="subtitle">Десктопна версія парсера вакансій</p>
+                </div>
+                <div class="controls">
+                    <button id="refreshBtn" class="btn btn-primary">
+                        🔄 Завантажити вакансії
+                    </button>
+                    <button id="saveBtn" class="btn btn-secondary" disabled>
+                        💾 Зберегти JSON
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <div class="search-panel" id="searchPanel" style="display: none;">
+            <input 
+                type="text" 
+                id="searchInput" 
+                class="search-input" 
+                placeholder="Пошук за назвою, компанією, локацією..."
+            >
+            <div class="search-stats">
+                <span id="searchStats"></span>
+            </div>
+        </div>
+
+        <div class="loader-container" id="loader" style="display: none;">
+            <div class="loader"></div>
+            <p class="loader-text">Завантаження вакансій з DOU.ua...</p>
+        </div>
+
+        <div class="empty-state" id="emptyState">
+            <div class="empty-icon">📄</div>
+            <h2>Готові почати?</h2>
+            <p>Натисніть кнопку "Завантажити вакансії" для початку роботи</p>
+        </div>
+
+        <div class="jobs-container" id="jobsContainer"></div>
+    </div>
+
+    <script src="renderer.js"></script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+{
+  "name": "@dou-parser/core",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"No tests yet\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "htmlparser2": "^9.1.0",
+    "domhandler": "^5.0.3",
+    "domutils": "^3.1.0"
+  }
+}

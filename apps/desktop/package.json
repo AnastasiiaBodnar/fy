@@ -1,0 +1,32 @@
+{
+  "name": "dou-parser-desktop",
+  "version": "1.0.0",
+  "description": "Desktop version of DOU Parser",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron . --no-sandbox",
+    "start:linux": "ELECTRON_OZONE_PLATFORM_HINT=x11 electron . --no-sandbox",
+    "dev": "electron . --no-sandbox",
+    "build:linux": "electron-packager . DOU-Parser --platform=linux --arch=x64 --out=dist --overwrite",
+    "build:win": "electron-packager . DOU-Parser --platform=win32 --arch=x64 --out=dist --overwrite",
+    "build": "npm run build:win",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@dou-parser/api": "file:../../packages/api",
+    "@dou-parser/core": "file:../../packages/core",
+    "@dou-parser/store": "file:../../packages/store",
+    "@dou-parser/utils": "file:../../packages/utils",
+    "axios": "^1.13.3",
+    "domhandler": "^5.0.3",
+    "domutils": "^3.2.2",
+    "htmlparser2": "^10.1.0"
+  },
+  "devDependencies": {
+    "electron": "^40.0.0",
+    "electron-packager": "^17.1.2"
+  }
+}
