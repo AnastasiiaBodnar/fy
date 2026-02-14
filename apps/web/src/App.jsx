@@ -4,7 +4,7 @@ import { WorkUaParser, Job } from '@workua/core';
 import { Fetcher } from '@workua/api';
 import { StorageService } from '@workua/utils';
 import Header from './components/Header';
-import SearchBar from './components/SearchBar';
+
 import JobList from './components/JobList';
 import './App.css';
 
@@ -68,15 +68,8 @@ function App() {
         hasJobs={jobs.length > 0}
       />
 
-      <SearchBar
-        value={searchQuery}
-        onChange={setSearchQuery}
-        totalCount={jobs.length}
-        filteredCount={filteredJobs.length}
-      />
-
       <JobList
-        jobs={filteredJobs}
+        jobs={jobs}
         onLoadDetails={fetchJobDetails}
         loadingDetails={loadingDetails}
       />

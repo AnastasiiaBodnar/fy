@@ -8,9 +8,7 @@ let loadingDetails = {};
 
 const refreshBtn = document.getElementById('refreshBtn');
 const saveBtn = document.getElementById('saveBtn');
-const searchInput = document.getElementById('searchInput');
-const searchPanel = document.getElementById('searchPanel');
-const searchStats = document.getElementById('searchStats');
+
 const loader = document.getElementById('loader');
 const emptyState = document.getElementById('emptyState');
 const jobsContainer = document.getElementById('jobsContainer');
@@ -29,9 +27,7 @@ async function fetchJobs() {
             filteredJobs = [...jobs];
             renderJobs();
 
-            searchPanel.style.display = 'block';
             saveBtn.disabled = false;
-            updateSearchStats();
         } else {
             throw new Error(result.error);
         }
@@ -78,7 +74,7 @@ function renderJobs() {
     if (filteredJobs.length === 0) {
         jobsContainer.innerHTML = `
             <div class="empty-state">
-                <div class="empty-icon">🔍</div>
+                <div class="empty-icon"></div>
                 <h2>Вакансій не знайдено</h2>
                 <p>Спробуйте змінити параметри пошуку</p>
             </div>
@@ -100,9 +96,9 @@ function createJobCard(job, index) {
             <div class="job-title-section">
                 <a href="${job.link}" class="job-title" target="_blank">${job.title}</a>
                 <div class="job-meta">
-                    <span class="job-company">🏢 ${job.company}</span>
+                    <span class="job-company">${job.company}</span>
                     <span>•</span>
-                    <span class="job-date">📅 ${job.date}</span>
+                    <span class="job-date">${job.date}</span>
                 </div>
             </div>
             <div class="job-info-section">
@@ -154,26 +150,7 @@ window.loadDetails = function (index) {
     fetchJobDetails(job, index);
 };
 
-function handleSearch() {
-    const query = searchInput.value.toLowerCase().trim();
 
-    if (!query) {
-        filteredJobs = [...jobs];
-    } else {
-        filteredJobs = jobs.filter(job =>
-            job.title.toLowerCase().includes(query) ||
-            job.company.toLowerCase().includes(query) ||
-            job.location.toLowerCase().includes(query)
-        );
-    }
-
-    renderJobs();
-    updateSearchStats();
-}
-
-function updateSearchStats() {
-    searchStats.textContent = `Показано: ${filteredJobs.length} з ${jobs.length}`;
-}
 
 function saveToJSON() {
     const dataStr = JSON.stringify(jobs, null, 2);
@@ -190,6 +167,6 @@ function saveToJSON() {
 
 refreshBtn.addEventListener('click', fetchJobs);
 saveBtn.addEventListener('click', saveToJSON);
-searchInput.addEventListener('input', handleSearch);
+
 
 console.log('DOU Parser Desktop готовий до роботи!');

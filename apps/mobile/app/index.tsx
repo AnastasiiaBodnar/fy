@@ -9,7 +9,7 @@ import {
   ActivityIndicator,
   Text,
   TouchableOpacity,
-  TextInput,
+
   ScrollView,
   Pressable
 } from 'react-native';
@@ -21,13 +21,11 @@ export default function Index() {
     jobs,
     isLoading,
     loadingDetails,
-    searchQuery,
+
     setJobs,
     setLoading,
     updateJob,
-    setLoadingDetails,
-    setSearchQuery,
-    getFilteredJobs
+    setLoadingDetails
   } = useJobsStore();
 
   const parser = new WorkUaParser();
@@ -143,7 +141,7 @@ export default function Index() {
     }
   };
 
-  const filteredJobs = getFilteredJobs();
+
 
   // Job Card Component
   const JobCard = ({ job, index, onLoadDetails, isLoadingDetails }: any) => {
@@ -208,36 +206,22 @@ export default function Index() {
         </TouchableOpacity>
       </View>
 
-      {/* Search Bar */}
-      <View style={styles.searchContainer}>
-        <TextInput
-          style={styles.searchInput}
-          placeholder="Пошук вакансій..."
-          value={searchQuery}
-          onChangeText={setSearchQuery}
-          placeholderTextColor="#95a5a6"
-        />
-        {jobs.length > 0 && (
-          <Text style={styles.searchCount}>
-            {filteredJobs.length} з {jobs.length}
-          </Text>
-        )}
-      </View>
+
 
       {isLoading && jobs.length === 0 ? (
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color="#ff4965" />
           <Text style={styles.loadingText}>Завантаження вакансій...</Text>
         </View>
-      ) : filteredJobs.length === 0 && jobs.length === 0 ? (
+      ) : jobs.length === 0 ? (
         <View style={styles.emptyState}>
-          <Text style={styles.emptyIcon}>📄</Text>
+          <Text style={styles.emptyIcon}></Text>
           <Text style={styles.emptyTitle}>Натисніть "Оновити" для початку</Text>
           <Text style={styles.emptyText}>Завантажте актуальні вакансії з Work.ua</Text>
         </View>
       ) : (
         <FlatList
-          data={filteredJobs}
+          data={jobs}
           keyExtractor={(item, index) => `${item.link}-${index}`}
           renderItem={renderItem}
           contentContainerStyle={styles.list}
@@ -250,7 +234,7 @@ export default function Index() {
           }
           ListEmptyComponent={
             <View style={styles.emptyState}>
-              <Text style={styles.emptyIcon}>🔍</Text>
+              <Text style={styles.emptyIcon}></Text>
               <Text style={styles.emptyTitle}>Вакансій не знайдено</Text>
               <Text style={styles.emptyText}>Спробуйте змінити параметри пошуку</Text>
             </View>
@@ -295,26 +279,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
   },
-  searchContainer: {
-    backgroundColor: '#fff',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: '#e1e8ed',
-  },
-  searchInput: {
-    backgroundColor: '#f5f7fa',
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 10,
-    fontSize: 15,
-    color: '#2c3e50',
-  },
-  searchCount: {
-    marginTop: 6,
-    fontSize: 12,
-    color: '#6b8c85',
-  },
+
   list: {
     padding: 12,
     paddingBottom: 20,

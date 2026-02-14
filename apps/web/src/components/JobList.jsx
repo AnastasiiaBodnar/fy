@@ -5,7 +5,7 @@ export default function JobList({ jobs, onLoadDetails, loadingDetails }) {
   if (jobs.length === 0) {
     return (
       <div style={styles.emptyState}>
-        <div style={styles.emptyIcon}>📄</div>
+        <div style={styles.emptyIcon}></div>
         <p style={styles.emptyTitle}>Вакансій не знайдено</p>
         <p style={styles.emptyText}>Спробуйте змінити параметри пошуку</p>
       </div>
