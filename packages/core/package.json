@@ -1,5 +1,5 @@
 {
-  "name": "@dou-parser/core",
+  "name": "@workua/core",
   "version": "1.0.0",
   "main": "src/index.js",
   "type": "module",

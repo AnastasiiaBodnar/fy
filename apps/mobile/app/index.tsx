@@ -13,8 +13,8 @@ import {
   ScrollView,
   Pressable
 } from 'react-native';
-import { useJobsStore } from '@dou-parser/store';
-import { WorkUaParser } from '@dou-parser/core';
+import { useJobsStore } from '@workua/store';
+import { WorkUaParser } from '@workua/core';
 
 export default function Index() {
   const {

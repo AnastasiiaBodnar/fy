@@ -1,5 +1,4 @@
-const { DOUParser } = require('@dou-parser/core');
-const axios = require('axios');
+const { ipcRenderer } = require('electron');
 const fs = require('fs');
 const path = require('path');
 
@@ -16,8 +15,6 @@ const loader = document.getElementById('loader');
 const emptyState = document.getElementById('emptyState');
 const jobsContainer = document.getElementById('jobsContainer');
 
-const parser = new DOUParser();
-
 async function fetchJobs() {
     refreshBtn.disabled = true;
     loader.style.display = 'block';
@@ -25,21 +22,19 @@ async function fetchJobs() {
     jobsContainer.innerHTML = '';
 
     try {
-        const proxyUrl = 'https://api.allorigins.win/get?url=';
-        const targetUrl = encodeURIComponent('https://jobs.dou.ua/vacancies/');
-        const fullUrl = `${proxyUrl}${targetUrl}`;
+        const result = await ipcRenderer.invoke('fetch-jobs');
 
-        const response = await axios.get(fullUrl);
-        const html = response.data.contents;
+        if (result.success) {
+            jobs = result.jobs;
+            filteredJobs = [...jobs];
+            renderJobs();
 
-        jobs = parser.parseVacancyList(html).slice(0, 30);
-        filteredJobs = [...jobs];
-
-        renderJobs();
-
-        searchPanel.style.display = 'block';
-        saveBtn.disabled = false;
-        updateSearchStats();
+            searchPanel.style.display = 'block';
+            saveBtn.disabled = false;
+            updateSearchStats();
+        } else {
+            throw new Error(result.error);
+        }
 
     } catch (error) {
         console.error('Помилка завантаження:', error);
@@ -181,7 +176,7 @@ function updateSearchStats() {
 }
 
 function saveToJSON() {
-    const dataStr = JSON.stringify(jobs.map(job => job.toJSON()), null, 2);
+    const dataStr = JSON.stringify(jobs, null, 2);
     const filePath = path.join(require('os').homedir(), 'Desktop', 'dou_jobs.json');
 
     try {

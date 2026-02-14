@@ -1,5 +1,14 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
+const moduleAlias = require('module-alias');
+
+// Register aliases
+moduleAlias.addAliases({
+  '@workua/core': path.join(__dirname, '../../packages/core/src/index.js'),
+  '@workua/store': path.join(__dirname, '../../packages/store/src/index.js'),
+  '@workua/api': path.join(__dirname, '../../packages/api/src/index.js'),
+  '@workua/utils': path.join(__dirname, '../../packages/utils/src/index.js'),
+});
 
 let mainWindow;
 
@@ -37,7 +46,7 @@ app.on('activate', () => {
   }
 });
 
-const { WorkUaParser } = require('@dou-parser/core');
+const { WorkUaParser } = require('@workua/core');
 const axios = require('axios');
 
 ipcMain.handle('fetch-jobs', async () => {

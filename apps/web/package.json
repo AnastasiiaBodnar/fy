@@ -13,10 +13,10 @@
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "zustand": "^5.0.10",
-    "@dou-parser/core": "file:../../packages/core",
-    "@dou-parser/store": "file:../../packages/store",
-    "@dou-parser/api": "file:../../packages/api",
-    "@dou-parser/utils": "file:../../packages/utils"
+    "@workua/core": "file:../../packages/core",
+    "@workua/store": "file:../../packages/store",
+    "@workua/api": "file:../../packages/api",
+    "@workua/utils": "file:../../packages/utils"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",

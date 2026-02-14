@@ -10,7 +10,7 @@ export class WorkUaParser {
     parseVacancyList(html) {
         const document = this.htmlParser.parse(html);
         const vacancies = this.htmlParser.querySelectorAll(document, '.card.job-link');
-        console.log('Знайдено елементів .card.job-link:', vacancies.length);
+
         const jobs = [];
 
         vacancies.forEach((element) => {

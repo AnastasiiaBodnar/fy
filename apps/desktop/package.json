@@ -16,14 +16,15 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@dou-parser/api": "file:../../packages/api",
-    "@dou-parser/core": "file:../../packages/core",
-    "@dou-parser/store": "file:../../packages/store",
-    "@dou-parser/utils": "file:../../packages/utils",
+    "@workua/api": "file:../../packages/api",
+    "@workua/core": "file:../../packages/core",
+    "@workua/store": "file:../../packages/store",
+    "@workua/utils": "file:../../packages/utils",
     "axios": "^1.13.3",
     "domhandler": "^5.0.3",
     "domutils": "^3.2.2",
-    "htmlparser2": "^10.1.0"
+    "htmlparser2": "^10.1.0",
+    "module-alias": "^2.3.4"
   },
   "devDependencies": {
     "electron": "^40.0.0",

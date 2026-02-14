@@ -1,5 +1,5 @@
 {
-  "name": "@dou-parser/utils",
+  "name": "@workua/utils",
   "version": "1.0.0",
   "description": "",
   "main": "src/index.js",

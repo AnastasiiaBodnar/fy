@@ -11,10 +11,10 @@
     "lint": "expo lint"
   },
   "dependencies": {
-    "@dou-parser/api": "file:../../packages/api",
-    "@dou-parser/core": "file:../../packages/core",
-    "@dou-parser/store": "file:../../packages/store",
-    "@dou-parser/utils": "file:../../packages/utils",
+    "@workua/api": "file:../../packages/api",
+    "@workua/core": "file:../../packages/core",
+    "@workua/store": "file:../../packages/store",
+    "@workua/utils": "file:../../packages/utils",
     "@expo/vector-icons": "^15.0.3",
     "@react-navigation/bottom-tabs": "^7.4.0",
     "@react-navigation/elements": "^2.6.3",

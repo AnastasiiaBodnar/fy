@@ -3,6 +3,18 @@
   "compilerOptions": {
     "strict": true,
     "paths": {
+      "@workua/api": [
+        "../../packages/api/src/index.js"
+      ],
+      "@workua/core": [
+        "../../packages/core/src/index.js"
+      ],
+      "@workua/store": [
+        "../../packages/store/src/index.js"
+      ],
+      "@workua/utils": [
+        "../../packages/utils/src/index.js"
+      ],
       "@/*": [
         "./*"
       ]

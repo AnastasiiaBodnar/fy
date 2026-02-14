@@ -1,8 +1,8 @@
 import React from 'react';
-import { useJobsStore } from '@dou-parser/store';
-import { WorkUaParser, Job } from '@dou-parser/core';
-import { Fetcher } from '@dou-parser/api';
-import { StorageService } from '@dou-parser/utils';
+import { useJobsStore } from '@workua/store';
+import { WorkUaParser, Job } from '@workua/core';
+import { Fetcher } from '@workua/api';
+import { StorageService } from '@workua/utils';
 import Header from './components/Header';
 import SearchBar from './components/SearchBar';
 import JobList from './components/JobList';
