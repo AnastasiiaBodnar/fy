@@ -154,7 +154,7 @@ window.loadDetails = function (index) {
 
 function saveToJSON() {
     const dataStr = JSON.stringify(jobs, null, 2);
-    const filePath = path.join(require('os').homedir(), 'Desktop', 'dou_jobs.json');
+    const filePath = path.join(require('os').homedir(), 'Desktop', 'jobs.json');
 
     try {
         fs.writeFileSync(filePath, dataStr, 'utf-8');
@@ -169,4 +169,4 @@ refreshBtn.addEventListener('click', fetchJobs);
 saveBtn.addEventListener('click', saveToJSON);
 
 
-console.log('DOU Parser Desktop готовий до роботи!');
+console.log('Work.ua Parser Desktop готовий до роботи!');

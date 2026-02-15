@@ -1,14 +1,14 @@
 {
-  "name": "dou-parser-desktop",
+  "name": "workua-parser-desktop",
   "version": "1.0.0",
-  "description": "Desktop version of DOU Parser",
+  "description": "Desktop version of Work.ua Parser",
   "main": "main.js",
   "scripts": {
     "start": "electron . --no-sandbox",
     "start:linux": "ELECTRON_OZONE_PLATFORM_HINT=x11 electron . --no-sandbox",
     "dev": "electron . --no-sandbox",
-    "build:linux": "electron-packager . DOU-Parser --platform=linux --arch=x64 --out=dist --overwrite",
-    "build:win": "electron-packager . DOU-Parser --platform=win32 --arch=x64 --out=dist --overwrite",
+    "build:linux": "electron-packager . WorkUA-Parser --platform=linux --arch=x64 --out=dist --overwrite",
+    "build:win": "electron-packager . WorkUA-Parser --platform=win32 --arch=x64 --out=dist --overwrite",
     "build": "npm run build:win",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

@@ -9,10 +9,10 @@ import {
   ActivityIndicator,
   Text
 } from 'react-native';
-import { useJobsStore } from '@dou-parser/store';
-import { DOUParser } from '@dou-parser/core';
-import { Fetcher } from '@dou-parser/api';
-import { StorageService } from '@dou-parser/utils';
+import { useJobsStore } from '@workua/store';
+import { WorkUaParser } from '@workua/core';
+import { Fetcher } from '@workua/api';
+import { StorageService } from '@workua/utils';
 import Header from './components/Header';
 import SearchBar from './components/SearchBar';
 import JobCard from './components/JobCard';
@@ -31,14 +31,14 @@ export default function App() {
     getFilteredJobs
   } = useJobsStore();
 
-  const parser = new DOUParser();
+  const parser = new WorkUaParser();
   const fetcher = new Fetcher();
 
   const fetchJobs = async () => {
     setLoading(true);
     try {
       const proxyUrl = 'https://api.allorigins.win/get?url=';
-      const targetUrl = encodeURIComponent('https://jobs.dou.ua/vacancies/');
+      const targetUrl = encodeURIComponent('https://www.work.ua/jobs-react/');
       const fullUrl = `${proxyUrl}${targetUrl}`;
       
       const response = await fetch(fullUrl);
@@ -113,7 +113,7 @@ export default function App() {
         <View style={styles.emptyState}>
           <Text style={styles.emptyIcon}>📄</Text>
           <Text style={styles.emptyTitle}>Натисніть "Оновити" для початку</Text>
-          <Text style={styles.emptyText}>Завантажте актуальні вакансії з DOU.ua</Text>
+          <Text style={styles.emptyText}>Завантажте актуальні вакансії з Work.ua</Text>
         </View>
       ) : (
         <FlatList
