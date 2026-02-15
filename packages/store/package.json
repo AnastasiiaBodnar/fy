@@ -2,7 +2,8 @@
   "name": "@workua/store",
   "version": "1.0.0",
   "description": "",
-  "main": "src/index.js",
+  "main": "index.js",
+  "exports": "./index.js",
   "type": "module",
   "peerDependencies": {
     "react": "^19.0.0",

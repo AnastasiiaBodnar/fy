@@ -4,10 +4,10 @@ const moduleAlias = require('module-alias');
 
 // Register aliases
 moduleAlias.addAliases({
-  '@workua/core': path.join(__dirname, '../../packages/core/src/index.js'),
-  '@workua/store': path.join(__dirname, '../../packages/store/src/index.js'),
-  '@workua/api': path.join(__dirname, '../../packages/api/src/index.js'),
-  '@workua/utils': path.join(__dirname, '../../packages/utils/src/index.js'),
+  '@workua/core': path.join(__dirname, '../../packages/core/index.js'),
+  '@workua/store': path.join(__dirname, '../../packages/store/index.js'),
+  '@workua/api': path.join(__dirname, '../../packages/api/index.js'),
+  '@workua/utils': path.join(__dirname, '../../packages/utils/index.js'),
 });
 
 let mainWindow;

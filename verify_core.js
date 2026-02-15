@@ -1,6 +1,6 @@
-import { WorkUaParser, Job, HTMLParser } from './packages/core/src/index.js';
+import { WorkUaParser, Job, HTMLParser } from './packages/core/index.js';
 
-console.log('Verifying imports...');
+console.log('Verifying imports from root index.js...');
 
 try {
     const parser = new WorkUaParser();

@@ -4,16 +4,16 @@
     "strict": true,
     "paths": {
       "@workua/api": [
-        "../../packages/api/src/index.js"
+        "../../packages/api/index.js"
       ],
       "@workua/core": [
-        "../../packages/core/src/index.js"
+        "../../packages/core/index.js"
       ],
       "@workua/store": [
-        "../../packages/store/src/index.js"
+        "../../packages/store/index.js"
       ],
       "@workua/utils": [
-        "../../packages/utils/src/index.js"
+        "../../packages/utils/index.js"
       ],
       "@/*": [
         "./*"

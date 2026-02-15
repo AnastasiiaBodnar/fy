@@ -1,7 +1,8 @@
 {
   "name": "@workua/core",
   "version": "1.0.0",
-  "main": "src/index.js",
+  "main": "index.js",
+  "exports": "./index.js",
   "type": "module",
   "scripts": {
     "test": "echo \"No tests yet\""

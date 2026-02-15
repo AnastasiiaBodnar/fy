@@ -8,10 +8,10 @@ export default defineConfig({
     alias: {
       'react': path.resolve(__dirname, './node_modules/react'),
       'react-dom': path.resolve(__dirname, './node_modules/react-dom'),
-      '@workua/core': path.resolve(__dirname, '../../packages/core/src/index.js'),
-      '@workua/store': path.resolve(__dirname, '../../packages/store/src/index.js'),
-      '@workua/api': path.resolve(__dirname, '../../packages/api/src/index.js'),
-      '@workua/utils': path.resolve(__dirname, '../../packages/utils/src/index.js')
+      '@workua/core': path.resolve(__dirname, '../../packages/core/index.js'),
+      '@workua/store': path.resolve(__dirname, '../../packages/store/index.js'),
+      '@workua/api': path.resolve(__dirname, '../../packages/api/index.js'),
+      '@workua/utils': path.resolve(__dirname, '../../packages/utils/index.js')
     }
   },
   server: {
