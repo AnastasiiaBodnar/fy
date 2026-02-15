@@ -46,18 +46,20 @@ app.on('activate', () => {
 });
 
 const { WorkUaParser } = require('@workua/core');
+const { UrlBuilder } = require('@workua/api');
 const axios = require('axios');
 
 ipcMain.handle('fetch-jobs', async () => {
   try {
     const parser = new WorkUaParser();
-    const response = await axios.get('https://www.work.ua/jobs-react/', {
+    const url = UrlBuilder.build();
+    const response = await axios.get(url, {
       headers: {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
       }
     });
     const html = response.data;
-    const jobs = parser.parseVacancyList(html);
+    const jobs = parser.parseVacancyList(html).slice(0, 10);
     return { success: true, jobs };
   } catch (error) {
     console.error('Error fetching jobs:', error);

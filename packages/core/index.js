@@ -199,14 +199,8 @@ export class WorkUaParser {
         const descriptionElement = this.htmlParser.querySelector(document, '#job-description');
         const fullDescription = this.htmlParser.getText(descriptionElement) || 'Опис недоступний';
 
-        const requirements = [];
-
-        if (descriptionElement) {
-        }
-
         return {
-            fullDescription,
-            requirements: requirements.length > 0 ? requirements : ['Див. повний опис']
+            fullDescription
         }
     }
 }

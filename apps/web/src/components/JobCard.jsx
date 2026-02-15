@@ -45,19 +45,7 @@ export default function JobCard({ job, index, onLoadDetails, isLoadingDetails })
           </div>
           <p style={styles.detailsText}>{job.details.fullDescription}</p>
 
-          {job.details.requirements.length > 0 && job.details.requirements[0] !== 'Не вказано' && (
-            <div style={styles.requirementsSection}>
-              <h4 style={styles.requirementsTitle}>Вимоги:</h4>
-              <ul style={styles.requirementsList}>
-                {job.details.requirements.map((req, i) => (
-                  <li key={i} style={styles.requirementItem}>
-                    <span style={styles.bullet}>•</span>
-                    {req}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
+
         </div>
       )}
     </article>

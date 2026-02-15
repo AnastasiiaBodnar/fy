@@ -1,7 +1,7 @@
 import React from 'react';
 import { useJobsStore } from '@workua/store';
 import { WorkUaParser, Job } from '@workua/core';
-import { Fetcher } from '@workua/api';
+import { Fetcher, UrlBuilder } from '@workua/api';
 import { StorageService } from '@workua/utils';
 import Header from './components/Header';
 
@@ -28,9 +28,10 @@ function App() {
   const fetchJobs = async () => {
     setLoading(true);
     try {
-      const html = await fetcher.fetchHTML('https://www.work.ua/jobs-react/');
+      const url = UrlBuilder.build();
+      const html = await fetcher.fetchHTML(url);
       const parsedJobs = parser.parseVacancyList(html);
-      setJobs(parsedJobs.slice(0, 30));
+      setJobs(parsedJobs.slice(0, 10));
     } catch (error) {
       console.error('Помилка завантаження:', error);
       alert('Не вдалося завантажити вакансії. Спробуйте пізніше.');

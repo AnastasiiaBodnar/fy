@@ -34,3 +34,14 @@ export class Fetcher {
         return await this.fetch(url);
     }
 }
+
+export class UrlBuilder {
+    static build(query = '', city = 'khmelnytskyi') {
+        const citySlug = city.toLowerCase();
+        if (!query) {
+            return `https://www.work.ua/jobs-${citySlug}/`;
+        }
+        const querySlug = query.toLowerCase().replace(/\s+/g, '+');
+        return `https://www.work.ua/jobs-${citySlug}-${querySlug}/`;
+    }
+}

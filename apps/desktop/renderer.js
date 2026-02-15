@@ -121,14 +121,7 @@ function createJobCard(job, index) {
                     <h3 class="details-title">Повний опис</h3>
                     <div class="full-description">${job.details.fullDescription}</div>
                     
-                    ${job.details.requirements.length > 0 && job.details.requirements[0] !== 'Не вказано' ? `
-                        <div class="requirements-section">
-                            <h4 class="requirements-title">Вимоги:</h4>
-                            <ul class="requirements-list">
-                                ${job.details.requirements.map(req => `<li class="requirement-item">${req}</li>`).join('')}
-                            </ul>
-                        </div>
-                    ` : ''}
+
                 </div>
             `}
         </div>

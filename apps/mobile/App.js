@@ -38,15 +38,15 @@ export default function App() {
     setLoading(true);
     try {
       const proxyUrl = 'https://api.allorigins.win/get?url=';
-      const targetUrl = encodeURIComponent('https://www.work.ua/jobs-react/');
+      const targetUrl = encodeURIComponent(UrlBuilder.build());
       const fullUrl = `${proxyUrl}${targetUrl}`;
-      
+
       const response = await fetch(fullUrl);
       const data = await response.json();
       const html = data.contents;
 
       const parsedJobs = parser.parseVacancyList(html);
-      setJobs(parsedJobs.slice(0, 30));
+      setJobs(parsedJobs.slice(0, 10));
     } catch (error) {
       console.error('Помилка завантаження:', error);
       alert('Не вдалося завантажити вакансії. Перевірте з\'єднання.');
@@ -61,7 +61,7 @@ export default function App() {
       const proxyUrl = 'https://api.allorigins.win/get?url=';
       const targetUrl = encodeURIComponent(job.link);
       const fullUrl = `${proxyUrl}${targetUrl}`;
-      
+
       const response = await fetch(fullUrl);
       const data = await response.json();
       const html = data.contents;
@@ -90,13 +90,13 @@ export default function App() {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#f5f7fa" />
-      
-      <Header 
+
+      <Header
         onRefresh={fetchJobs}
         isLoading={isLoading}
         hasJobs={jobs.length > 0}
       />
-      
+
       <SearchBar
         value={searchQuery}
         onChange={setSearchQuery}
@@ -122,8 +122,8 @@ export default function App() {
           renderItem={renderItem}
           contentContainerStyle={styles.list}
           refreshControl={
-            <RefreshControl 
-              refreshing={isLoading} 
+            <RefreshControl
+              refreshing={isLoading}
               onRefresh={fetchJobs}
               colors={['#20c997']}
             />
