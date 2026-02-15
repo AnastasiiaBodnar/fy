@@ -2,7 +2,6 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const moduleAlias = require('module-alias');
 
-// Register aliases
 moduleAlias.addAliases({
   '@workua/core': path.join(__dirname, '../../packages/core/index.js'),
   '@workua/store': path.join(__dirname, '../../packages/store/index.js'),
