@@ -15,6 +15,7 @@ import {
 } from 'react-native';
 import { useJobsStore } from '@workua/store';
 import { WorkUaParser } from '@workua/core';
+import { Fetcher, UrlBuilder } from '@workua/api';
 
 export default function Index() {
   const {
@@ -30,98 +31,19 @@ export default function Index() {
 
   const parser = new WorkUaParser();
 
-  // Try direct fetch first (React Native doesn't have CORS restrictions)
-  // Then fallback to CORS proxies if needed
-  const fetchWithFallback = async (targetUrl: string) => {
-    // First, try direct request (works in React Native)
-    try {
-      console.log('Trying direct fetch...');
-      const response = await fetch(targetUrl, {
-        headers: {
-          'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Mobile/15E148 Safari/604.1',
-          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
-        }
-      });
-
-      if (response.ok) {
-        const html = await response.text();
-        if (html && html.length > 100) {
-          console.log('Success with direct fetch');
-          return html;
-        }
-      }
-      console.warn('Direct fetch failed, trying proxies...');
-    } catch (error: any) {
-      console.warn('Direct fetch error:', error.message);
-    }
-
-    // Fallback to CORS proxies
-    const CORS_PROXIES = [
-      {
-        name: 'AllOrigins',
-        buildUrl: (url: string) => `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`,
-        extractHtml: (data: any) => data.contents
-      },
-      {
-        name: 'CORS Anywhere',
-        buildUrl: (url: string) => `https://cors-anywhere.herokuapp.com/${url}`,
-        extractHtml: (data: any) => data
-      },
-      {
-        name: 'ThingProxy',
-        buildUrl: (url: string) => `https://thingproxy.freeboard.io/fetch/${url}`,
-        extractHtml: (data: any) => data
-      }
-    ];
-
-    let lastError: Error | null = null;
-
-    for (const proxy of CORS_PROXIES) {
-      try {
-        console.log(`Trying proxy: ${proxy.name}`);
-        const proxyUrl = proxy.buildUrl(targetUrl);
-
-        const response = await fetch(proxyUrl);
-
-        if (!response.ok) {
-          throw new Error(`HTTP ${response.status}`);
-        }
-
-        const contentType = response.headers.get('content-type');
-        let data;
-
-        if (contentType && contentType.includes('application/json')) {
-          data = await response.json();
-        } else {
-          data = await response.text();
-        }
-
-        const html = proxy.extractHtml(data);
-
-        if (!html || html.length < 100) {
-          throw new Error('Invalid response');
-        }
-
-        console.log(`Success with proxy: ${proxy.name}`);
-        return html;
-      } catch (error: any) {
-        console.warn(`Failed with ${proxy.name}:`, error.message);
-        lastError = error;
-      }
-    }
-
-    throw new Error(`All methods failed. Last error: ${lastError?.message}`);
-  };
+  const fetcher = new Fetcher({ strategy: 'mobile' });
 
   const fetchJobs = async () => {
     setLoading(true);
     try {
-      const html = await fetchWithFallback('https://www.work.ua/jobs-react/');
+      // Use UrlBuilder.build() to get the default URL (Khmelnytskyi, all jobs)
+      const url = UrlBuilder.build();
+      const html = await fetcher.fetchHTML(url);
       const parsedJobs = parser.parseVacancyList(html);
-      setJobs(parsedJobs.slice(0, 30));
+      setJobs(parsedJobs.slice(0, 10));
     } catch (error) {
       console.error('Помилка завантаження:', error);
-      alert('Не вдалося завантажити вакансії. Спробуйте пізніше.');
+      alert('Не вдалося завантажити вакансії. Перевірте з\'єднання.');
     } finally {
       setLoading(false);
     }
@@ -130,7 +52,7 @@ export default function Index() {
   const fetchJobDetails = async (job: any, index: number) => {
     setLoadingDetails(index, true);
     try {
-      const html = await fetchWithFallback(job.link);
+      const html = await fetcher.fetchHTML(job.link);
       const details = parser.parseVacancyDetails(html);
       updateJob(index, { details });
     } catch (error) {
@@ -156,25 +78,37 @@ export default function Index() {
 
     return (
       <View style={styles.card}>
-        <Pressable onPress={handleExpand}>
-          <Text style={styles.jobTitle}>{job.title}</Text>
-          <Text style={styles.company}>{job.company}</Text>
-          <Text style={styles.location}>{job.location}</Text>
+        <View style={styles.cardHeader}>
+          <View style={styles.cardTitleContainer}>
+            <Text style={styles.jobTitle}>{job.title}</Text>
+            <Text style={styles.company}>{job.company}</Text>
+            <Text style={styles.location}>{job.location}</Text>
+          </View>
+        </View>
 
-          {expanded && job.details && (
-            <View style={styles.details}>
-              <ScrollView style={styles.detailsScroll}>
-                <Text style={styles.detailsText}>{job.details}</Text>
-              </ScrollView>
-            </View>
-          )}
+        {expanded && job.details && (
+          <View style={styles.details}>
+            <ScrollView style={styles.detailsScroll}>
+              <Text style={styles.detailsText}>{job.details.fullDescription}</Text>
+            </ScrollView>
+          </View>
+        )}
 
-          {expanded && isLoadingDetails && (
-            <View style={styles.detailsLoading}>
-              <ActivityIndicator color="#20c997" />
-            </View>
-          )}
-        </Pressable>
+        <View style={styles.cardActions}>
+          <TouchableOpacity
+            style={styles.detailsButton}
+            onPress={handleExpand}
+            disabled={isLoadingDetails}
+          >
+            {isLoadingDetails ? (
+              <ActivityIndicator size="small" color="#ff4965" />
+            ) : (
+              <Text style={styles.detailsButtonText}>
+                {expanded ? 'Згорнути' : 'Детальніше'}
+              </Text>
+            )}
+          </TouchableOpacity>
+        </View>
       </View>
     );
   };
@@ -366,6 +300,35 @@ const styles = StyleSheet.create({
     color: '#1a3c34',
     marginBottom: 8,
     textAlign: 'center',
+  },
+  cardActions: {
+    marginTop: 12,
+    borderTopWidth: 1,
+    borderTopColor: '#f0f0f0',
+    paddingTop: 12,
+    alignItems: 'flex-start',
+  },
+  detailsButton: {
+    backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: '#ff4965',
+    borderRadius: 8,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  detailsButtonText: {
+    color: '#ff4965',
+    fontWeight: '600',
+    fontSize: 14,
+  },
+  cardHeader: {
+    marginBottom: 8,
+  },
+  cardTitleContainer: {
+    flex: 1,
   },
   emptyText: {
     fontSize: 14,

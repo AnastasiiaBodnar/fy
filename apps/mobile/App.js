@@ -32,19 +32,13 @@ export default function App() {
   } = useJobsStore();
 
   const parser = new WorkUaParser();
-  const fetcher = new Fetcher();
+  const fetcher = new Fetcher({ strategy: 'allorigins' });
 
   const fetchJobs = async () => {
     setLoading(true);
     try {
-      const proxyUrl = 'https://api.allorigins.win/get?url=';
-      const targetUrl = encodeURIComponent(UrlBuilder.build());
-      const fullUrl = `${proxyUrl}${targetUrl}`;
-
-      const response = await fetch(fullUrl);
-      const data = await response.json();
-      const html = data.contents;
-
+      const url = UrlBuilder.build();
+      const html = await fetcher.fetchHTML(url);
       const parsedJobs = parser.parseVacancyList(html);
       setJobs(parsedJobs.slice(0, 10));
     } catch (error) {
@@ -58,14 +52,7 @@ export default function App() {
   const fetchJobDetails = async (job, index) => {
     setLoadingDetails(index, true);
     try {
-      const proxyUrl = 'https://api.allorigins.win/get?url=';
-      const targetUrl = encodeURIComponent(job.link);
-      const fullUrl = `${proxyUrl}${targetUrl}`;
-
-      const response = await fetch(fullUrl);
-      const data = await response.json();
-      const html = data.contents;
-
+      const html = await fetcher.fetchHTML(job.link);
       const details = parser.parseVacancyDetails(html);
       updateJob(index, { details });
     } catch (error) {
