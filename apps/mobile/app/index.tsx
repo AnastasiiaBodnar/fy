@@ -31,7 +31,7 @@ export default function Index() {
 
   const parser = new WorkUaParser();
 
-  const fetcher = new Fetcher({ strategy: 'mobile' });
+  const fetcher = new Fetcher();
 
   const fetchJobs = async () => {
     setLoading(true);

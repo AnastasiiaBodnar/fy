@@ -32,7 +32,7 @@ export default function App() {
   } = useJobsStore();
 
   const parser = new WorkUaParser();
-  const fetcher = new Fetcher({ strategy: 'allorigins' });
+  const fetcher = new Fetcher();
 
   const fetchJobs = async () => {
     setLoading(true);
